@@ -4,9 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+
 </head>
 <body>
-    
+    <div class="container"></div>
+    <script>
+        const campos = "media_type,media_url"
+        const limite = 4
+        const token = "IGQWRNZAi1lNER0NEpYaXp3VTIyY083YVkxdl9LS0VqV0ZAjUTJSSmNNM3htVXVjelJUcnRDQWJZAejBxTklsZA1N5Q3FsZAzRJclBWU1ZA2X1Atc196Ny0tdGZAlbmZABblZAOQS0tNFdVTy1BMXNwOHhZAN2cwUUpkWmtETGsZD"
+        const baseUrl = `https://graph.instagram.com/me/media?fields=${campos}&access_token=${token}&limit=${limite}`
+        
+        console.log(baseUrl)
+        fetch(baseUrl)
+        .then(response => response.json())
+        .then((data) => {
+            const container = document.querySelector(".container")
+            data.data.forEach((img) => {
+                const mediaType = img.media_type
+                const mediaUrl = img.media_url
+
+                if(mediaType === "VIDEO") {
+                    const video = document.createElement("video")
+                    video.src = mediaUrl
+                    video.classList.add("container-video")
+                    container.appendChild(video)
+                } else {
+                    const img = document.createElement("img")
+                    img.src = mediaUrl
+                    img.classList.add("container-img")
+                    container.appendChild(img)
+                }
+            })
+        })
+        .catch((error) => console.log(error))
+    </script>
 </body>
 </html>
